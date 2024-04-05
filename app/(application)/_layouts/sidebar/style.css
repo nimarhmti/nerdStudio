@@ -1,0 +1,6 @@
+.linkItem {
+  @apply w-full flex items-center justify-between rounded-3xl p-3 font-bold hover:bg-hoverItemColor cursor-pointer px-3;
+}
+.activeItem svg {
+  @apply text-highlightMain  !important;
+}

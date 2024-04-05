@@ -7,6 +7,15 @@ const config: Config = {
     "./app/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
+    colors: {
+      primary: "#fff",
+      secondary: "#ECECEE",
+      icons: "#858E99",
+      textMain: "#000",
+      highlightMain: "#6722FA",
+      highlight: "#DFD5FE",
+      hoverItemColor: "#F4F4F5",
+    },
     extend: {
       backgroundImage: {
         "gradient-radial": "radial-gradient(var(--tw-gradient-stops))",
