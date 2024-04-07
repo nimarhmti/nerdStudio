@@ -1,12 +1,5 @@
 "use client";
-import React, {
-  ChangeEvent,
-  MouseEvent,
-  useState,
-  useRef,
-  createRef,
-  MutableRefObject,
-} from "react";
+import React, { ChangeEvent, MouseEvent, useState } from "react";
 import Button from "../_Components/button/button";
 import TextArea from "../_Components/textArea/textArea";
 import { WriteTextInputID } from "@/keys/writeSectionId";
@@ -19,31 +12,71 @@ import {
 } from "./WriteTools/toolsItem";
 import { SelectItem } from "../_Components/selecItem/selectItem";
 import { langList } from "@/language/langList";
+// const variables
+
+const firstItem: number = 0;
+const length = "length";
+const format = "format";
+const tone = "tone";
 
 //interfaces type
 interface activeToolsModel {
-  lengthID: string;
-  formatID: string;
-  toneID: string;
+  length: string;
+  format: string;
+  tone: string;
 }
-
+interface FormValueType {
+  text: string;
+  language: string;
+  length: string;
+  format: string;
+  tone: string;
+}
+// initials values
+const initialValues: FormValueType = {
+  text: "",
+  language: langList[firstItem].name,
+  length: lengthItems[firstItem].label,
+  format: formatItems[firstItem].label,
+  tone: toneItems[firstItem].label,
+};
+//main Section: write
 export default function Write() {
-  const [value, setValue] = useState<string>("");
+  //states
+  const [value, setValue] = useState<FormValueType>(initialValues);
   const [activeTools, setActiveTools] = useState<activeToolsModel>({
-    lengthID: lengthItems[0].id,
-    formatID: formatItems[0].id,
-    toneID: toneItems[0].id,
+    length: lengthItems[0].id,
+    format: formatItems[0].id,
+    tone: toneItems[0].id,
   });
-  const writeTextRef = useRef<HTMLTextAreaElement>(null);
-  const handleNameChange = (
+  //change handler : get input change : main text and language selector
+  const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>
   ) => {
-    const { value } = e.target;
-    setValue(value);
+    const { value, name } = e.target;
+    setValue((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
+  //set Active tool function
+  const onActiveTools = (name: string, id: string): void => {
+    setActiveTools((prevState) => ({
+      ...prevState,
+      [name]: id,
+    }));
+  };
+
+  //on click function :tools choosing
   const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
-    console.log(e.currentTarget.id);
+    const { name, value, id } = e.currentTarget;
+    onActiveTools(name, id);
+    setValue((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
+  //main ui: write section
 
   return (
     <div className="bg-primary w-10/12 flex  item-center justify-center p-6">
@@ -52,63 +85,73 @@ export default function Write() {
         <div className="bg-icons">tab section</div>
         <div className="h-1/6">
           <TextArea
+            name="text"
             id={WriteTextInputID}
             placeHolder="tell me what to write for you.Hit ctrl+Enter to generate"
             resize="resize-none"
             label="Write About"
-            onChange={handleNameChange}
+            onChange={handleChange}
           />
         </div>
         <div className="h-2/6">
           {/* length section */}
-          <ButtonGroupWrapper label="length">
+          <ButtonGroupWrapper label={length}>
             {lengthItems.map((item: toolsItemType) => (
               <Button
                 key={item.id}
                 id={item.id}
                 label={item.label}
                 onClick={onClickHandler}
-                activeItem={activeTools.lengthID}
+                activeItem={activeTools.length}
+                value={item.label}
+                name={length}
               />
             ))}
           </ButtonGroupWrapper>
           {/* format section */}
-          <ButtonGroupWrapper label="format">
+          <ButtonGroupWrapper label={format}>
             {formatItems.map((item: toolsItemType) => (
               <Button
                 key={item.id}
                 id={item.id}
                 label={item.label}
                 onClick={onClickHandler}
-                activeItem={activeTools.formatID}
+                activeItem={activeTools.format}
+                value={item.label}
+                name={format}
               />
             ))}
           </ButtonGroupWrapper>
           {/* tone section */}
-          <ButtonGroupWrapper label="Tone">
+          <ButtonGroupWrapper label={tone}>
             {toneItems.map((item: toolsItemType) => (
               <Button
                 key={item.id}
                 id={item.id}
                 label={item.label}
                 onClick={onClickHandler}
-                activeItem={activeTools.toneID}
+                activeItem={activeTools.tone}
+                value={item.label}
+                name={tone}
               />
             ))}
           </ButtonGroupWrapper>
           {/* language output */}
           <div className="flex flex-col">
             <SelectItem
-              SelectId="jkvgs"
+              SelectId="langSelection"
               itemsData={langList}
               name="language"
-              value={value}
+              value={value.language}
               title="Output Language"
-              onChange={handleNameChange}
+              onChange={handleChange}
             />
           </div>
         </div>
-        <button className="mt-10 w-60 p-1 bg-highlightMain rounded-2xl text-secondary text-lg">
+        <button
+          className="mt-10 w-60 p-1 bg-highlightMain rounded-2xl text-secondary text-lg"
+          onClick={() => console.log(value)}
+        >
           test
         </button>
       </div>

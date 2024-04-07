@@ -3,10 +3,19 @@ interface ButtonProps {
   label: string;
   id: string;
   activeItem?: string;
+  name?: string;
+  value?: string;
   onClick?: (e: MouseEvent<HTMLButtonElement>) => void;
 }
 
-const Button: React.FC<ButtonProps> = ({ label, onClick, id, activeItem }) => {
+const Button: React.FC<ButtonProps> = ({
+  label,
+  onClick,
+  id,
+  activeItem,
+  value,
+  name,
+}) => {
   const isActive = () => activeItem === id;
   return (
     <button
@@ -15,6 +24,8 @@ const Button: React.FC<ButtonProps> = ({ label, onClick, id, activeItem }) => {
         isActive() ? "bg-highlight" : ""
       }`}
       onClick={onClick}
+      value={value}
+      name={name}
     >
       {label}
     </button>

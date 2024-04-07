@@ -7,6 +7,7 @@ interface textAreaProps {
   value?: string | number;
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   ref?: RefObject<HTMLTextAreaElement>;
+  name: string;
 }
 export default function TextArea({
   id,
@@ -16,6 +17,7 @@ export default function TextArea({
   onChange,
   value,
   ref,
+  name,
 }: textAreaProps) {
   return (
     <>
@@ -23,6 +25,7 @@ export default function TextArea({
         {label}
       </label>
       <textarea
+        name={name}
         id={id}
         className={`w-full h-full rounded-lg mt-2 ${resize} bg-secondary focus:outline-highlightMain p-3`}
         placeholder={placeHolder}
