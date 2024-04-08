@@ -189,7 +189,9 @@ export default function Write() {
           generate
         </button>
       </div>
-      <div className="w-1/2 h-full bg-highlightMain">right section </div>
+      <div className="w-1/2 h-full bg-highlightMain text-sm  font-extrabold">
+        right section{" "}
+      </div>
     </div>
   );
 }

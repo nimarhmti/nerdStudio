@@ -21,8 +21,8 @@ const Button: React.FC<ButtonProps> = ({
   return (
     <button
       id={id}
-      className={`rounded-lg text-sm bg-secondary text-textMain hover:bg-highlight p-2  h-full  ${
-        isActive() ? "bg-highlightMain" : ""
+      className={`rounded-lg text-sm  text-textMain hover:bg-highlight p-2  h-full  ${
+        isActive() ? "bg-highlight" : "bg-secondary"
       }`}
       onClick={onClick}
       value={value}
