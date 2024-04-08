@@ -15,6 +15,7 @@ import {
 import { SelectItem } from "../_Components/selecItem/selectItem";
 import { langList } from "@/language/langList";
 import { ButtonSwitcher } from "../_Components/TabSwitcher/TabSwitcher";
+import { WritePreview } from "./previewSection/WritePreview";
 // import AnimatedTabs from "../_Components/TabSwitcher/TabSwitcher";
 
 // const variables
@@ -189,8 +190,8 @@ export default function Write() {
           generate
         </button>
       </div>
-      <div className="w-1/2 h-full bg-highlightMain text-sm  font-extrabold">
-        right section{" "}
+      <div className="w-1/2  border-l border-secondary text-sm p-2 font-extrabold">
+        <WritePreview />
       </div>
     </div>
   );
