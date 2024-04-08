@@ -28,7 +28,7 @@ export const ButtonSwitcher = ({
           id={item.id}
           value={item.value}
           onClick={onClick}
-          className={` p-2 rounded-3xl h-full font font-extrabold ${
+          className={`p-2 rounded-3xl h-full font font-extrabold text-sm ${
             isActive(item.id) ? "bg-textMain text-primary" : " text-textMain"
           } `}
         />
