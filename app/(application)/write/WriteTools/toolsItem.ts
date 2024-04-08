@@ -3,6 +3,12 @@ export interface toolsItemType {
   id: string;
   label: string;
 }
+
+export interface writeSectionTabs {
+  id: string;
+  value: string;
+  name: string;
+}
 const lengthItems: toolsItemType[] = [
   { id: "auto001", label: "Auto" },
   { id: "short002", label: "Short" },
@@ -21,5 +27,8 @@ const toneItems: toolsItemType[] = [
   { id: "casual003", label: "Casual" },
   { id: "friendly004", label: "Friendly" },
 ];
-
-export { lengthItems, formatItems, toneItems };
+const sectionTabs: writeSectionTabs[] = [
+  { id: "compose6676", value: "compose", name: "Compose" },
+  { id: "reply69896", value: "reply", name: "Reply" },
+];
+export { lengthItems, formatItems, toneItems, sectionTabs };

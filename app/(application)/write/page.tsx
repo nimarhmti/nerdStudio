@@ -9,9 +9,14 @@ import {
   toolsItemType,
   formatItems,
   toneItems,
+  sectionTabs,
+  writeSectionTabs,
 } from "./WriteTools/toolsItem";
 import { SelectItem } from "../_Components/selecItem/selectItem";
 import { langList } from "@/language/langList";
+import { ButtonSwitcher } from "../_Components/TabSwitcher/TabSwitcher";
+// import AnimatedTabs from "../_Components/TabSwitcher/TabSwitcher";
+
 // const variables
 
 const firstItem: number = 0;
@@ -32,23 +37,35 @@ interface FormValueType {
   format: string;
   tone: string;
 }
+
 // initials values
-const initialValues: FormValueType = {
+const initialFormValues: FormValueType = {
   text: "",
   language: langList[firstItem].name,
   length: lengthItems[firstItem].label,
   format: formatItems[firstItem].label,
   tone: toneItems[firstItem].label,
 };
+
+const initialTabItem: writeSectionTabs = {
+  id: sectionTabs[firstItem].id,
+  name: sectionTabs[firstItem].name,
+  value: sectionTabs[firstItem].value,
+};
+
+const initialsActiveTools: activeToolsModel = {
+  length: lengthItems[firstItem].id,
+  format: formatItems[firstItem].id,
+  tone: toneItems[firstItem].id,
+};
+
 //main Section: write
 export default function Write() {
   //states
-  const [value, setValue] = useState<FormValueType>(initialValues);
-  const [activeTools, setActiveTools] = useState<activeToolsModel>({
-    length: lengthItems[0].id,
-    format: formatItems[0].id,
-    tone: toneItems[0].id,
-  });
+  const [activeTeb, setActiveTab] = useState<writeSectionTabs>(initialTabItem);
+  const [value, setValue] = useState<FormValueType>(initialFormValues);
+  const [activeTools, setActiveTools] =
+    useState<activeToolsModel>(initialsActiveTools);
   //change handler : get input change : main text and language selector
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>
@@ -67,6 +84,17 @@ export default function Write() {
     }));
   };
 
+  //set activeTab :write section
+
+  const onActiveTab = (e: MouseEvent<HTMLInputElement>) => {
+    const { value, id, name } = e.currentTarget;
+    setActiveTab((prevState) => ({
+      value: value,
+      id: id,
+      name: name,
+    }));
+  };
+
   //on click function :tools choosing
   const onClickHandler = (e: MouseEvent<HTMLButtonElement>) => {
     const { name, value, id } = e.currentTarget;
@@ -76,13 +104,19 @@ export default function Write() {
       [name]: value,
     }));
   };
-  //main ui: write section
 
   return (
     <div className="bg-primary w-10/12 flex  item-center justify-center p-6">
       <div className="w-1/2 h-full flex flex-col gap-y-10 pr-6">
         <h1 className="font-extrabold text-textMain text-3xl">Write</h1>
-        <div className="bg-icons">tab section</div>
+        <div className=" w-36">
+          <ButtonSwitcher
+            items={sectionTabs}
+            onClick={onActiveTab}
+            activeItem={activeTeb.id}
+          />
+        </div>
+
         <div className="h-1/6">
           <TextArea
             name="text"
@@ -152,7 +186,7 @@ export default function Write() {
           className="mt-10 w-60 p-1 bg-highlightMain rounded-2xl text-secondary text-lg"
           onClick={() => console.log(value)}
         >
-          test
+          generate
         </button>
       </div>
       <div className="w-1/2 h-full bg-highlightMain">right section </div>

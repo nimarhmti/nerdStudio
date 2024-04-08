@@ -17,11 +17,12 @@ const Button: React.FC<ButtonProps> = ({
   name,
 }) => {
   const isActive = () => activeItem === id;
+
   return (
     <button
       id={id}
-      className={`rounded-lg text-sm bg-secondary text-textMain hover:bg-highlight p-2  h-full ${
-        isActive() ? "bg-highlight" : ""
+      className={`rounded-lg text-sm bg-secondary text-textMain hover:bg-highlight p-2  h-full  ${
+        isActive() ? "bg-highlightMain" : ""
       }`}
       onClick={onClick}
       value={value}
