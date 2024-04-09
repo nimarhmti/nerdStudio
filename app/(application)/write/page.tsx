@@ -110,7 +110,7 @@ export default function Write() {
     <div className="bg-primary w-10/12 flex  item-center justify-center p-6">
       <div className="w-1/2 h-full flex flex-col gap-y-10 pr-6">
         <h1 className="font-extrabold text-textMain text-3xl">Write</h1>
-        <div className=" w-36">
+        <div className=" w-fit">
           <ButtonSwitcher
             items={sectionTabs}
             onClick={onActiveTab}

@@ -8,18 +8,24 @@ interface Items {
 interface props {
   label?: string;
   items: Items[];
-  onClick: (e: MouseEvent<HTMLInputElement>) => void;
+  onClick?: (e: MouseEvent<HTMLInputElement>) => void;
   activeItem?: string;
+  name?: string;
 }
 export const ButtonSwitcher = ({
   activeItem,
   items,
   onClick,
   label,
+  name,
 }: props) => {
   const isActive = (id: string) => activeItem == id;
+  console.log()
   return (
-    <div className="w-full rounded-3xl bg-secondary h-10 flex items-center gap-x-2">
+    <div
+      className="w-full rounded-3xl bg-secondary h-10 flex items-center gap-x-2"
+      id={name}
+    >
       {items.map((item: Items) => (
         <input
           type="button"
@@ -28,7 +34,7 @@ export const ButtonSwitcher = ({
           id={item.id}
           value={item.value}
           onClick={onClick}
-          className={`p-2 rounded-3xl h-full font font-extrabold text-sm ${
+          className={`p-2 rounded-3xl h-full font font-extrabold text-sm transition-all ${
             isActive(item.id) ? "bg-textMain text-primary" : " text-textMain"
           } `}
         />
