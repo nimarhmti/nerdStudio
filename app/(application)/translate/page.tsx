@@ -101,7 +101,6 @@ export default function Translate() {
     <div className="w-10/12 flex items-center justify-center">
       <div className="h-full w-4/6">
         <div className="h-1/6 pt-16">
-          <SoundIcon />
           <h1 className="text-textMain text-2xl font-bold p-2">Translate</h1>
         </div>
         <div className="h-5/6">

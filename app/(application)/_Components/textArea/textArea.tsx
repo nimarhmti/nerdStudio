@@ -1,8 +1,11 @@
+"use client";
 import CopyClipBoard from "@/public/icons/copyClipBoard";
 import SoundIcon from "@/public/icons/soundIcon";
 import TrashIcon from "@/public/icons/trashIcon";
 import { copyClipBoard } from "@/utils/copyClipboard";
-import React, { ChangeEvent, RefObject } from "react";
+import { textToSpeech } from "@/utils/textToSpeach";
+import React, { ChangeEvent, RefObject, useEffect, useState } from "react";
+//interface------------------------>
 interface textAreaProps {
   placeHolder: string;
   label?: string;
@@ -17,6 +20,18 @@ interface textAreaProps {
   activeSound?: boolean;
   onClear?: () => void;
 }
+
+interface voiceDetailsModel {
+  isPaused: boolean;
+  utterance: any;
+}
+
+// initials Value-------------->
+const initialVoiceDetails = {
+  isPaused: false,
+  utterance: null,
+};
+
 export default function TextArea({
   id,
   placeHolder,
@@ -31,12 +46,65 @@ export default function TextArea({
   activeCopyClipboard,
   onClear,
 }: textAreaProps) {
-  //conditional rendering
+  //states-------------------------------
+  const [voiceData, setIsVoiceData] =
+    useState<voiceDetailsModel>(initialVoiceDetails);
+  // use effect for text to speech----------------------
+  useEffect(() => {
+    const synth = window.speechSynthesis;
+    const u = new SpeechSynthesisUtterance(String(value));
+    setIsVoiceData((prevState) => ({
+      ...prevState,
+      utterance: u,
+    }));
+    return () => {
+      synth.cancel();
+    };
+  }, [value]);
 
-  const showSoundIcon = activeSound && <SoundIcon />;
+  //conditional rendering------------------------------------>
+  const showSoundIcon = activeSound && value && <SoundIcon />;
   const showCopyIcon = activeCopyClipboard && <CopyClipBoard />;
   const showTrashIcon = activeTrash && <TrashIcon />;
+  //handler function----------------------------------------->
+  //play voice
+  const handlePlay = () => {
+    const synth = window.speechSynthesis;
 
+    if (voiceData.isPaused) {
+      synth.resume();
+    }
+
+    synth.speak(voiceData.utterance);
+
+    setIsVoiceData((prevState) => ({
+      ...prevState,
+      isPaused: false,
+    }));
+  };
+
+  //pause voice
+  // const handlePause = () => {
+  //   const synth = window.speechSynthesis;
+
+  //   synth.pause();
+
+  //   setIsVoiceData((prevState) => ({
+  //     ...prevState,
+  //     isPaused: true,
+  //   }));
+  // };
+  // handel stop
+  // const handleStop = () => {
+  //   const synth = window.speechSynthesis;
+
+  //   synth.cancel();
+
+  //   setIsVoiceData((prevState) => ({
+  //     ...prevState,
+  //     isPaused: false,
+  //   }));
+  // };
   return (
     <div className="h-full relative">
       <label htmlFor={id} className="font-extrabold">
@@ -53,7 +121,7 @@ export default function TextArea({
       />
 
       <div className="absolute left-3 bottom-1 flex gap-x-2 items-center">
-        <div>{showSoundIcon}</div>
+        <div onClick={handlePlay}>{showSoundIcon}</div>
         <div onClick={() => copyClipBoard(String(value))}>{showCopyIcon}</div>
         <div onClick={onClear}>{showTrashIcon}</div>
       </div>
