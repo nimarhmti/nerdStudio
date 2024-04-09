@@ -3,7 +3,6 @@ import CopyClipBoard from "@/public/icons/copyClipBoard";
 import SoundIcon from "@/public/icons/soundIcon";
 import TrashIcon from "@/public/icons/trashIcon";
 import { copyClipBoard } from "@/utils/copyClipboard";
-import { textToSpeech } from "@/utils/textToSpeach";
 import React, { ChangeEvent, RefObject, useEffect, useState } from "react";
 //interface------------------------>
 interface textAreaProps {
