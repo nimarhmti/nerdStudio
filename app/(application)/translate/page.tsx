@@ -1,8 +1,10 @@
 "use client";
-import React, { MouseEvent, useState, ChangeEvent } from "react";
+import React, { MouseEvent, useState, ChangeEvent, useEffect } from "react";
 import TextArea from "../_Components/textArea/textArea";
 import { ButtonSwitcher } from "../_Components/TabSwitcher/TabSwitcher";
 import { langList, translatedList } from "@/language/langList";
+import SoundIcon from "@/public/icons/soundIcon";
+
 //variables
 
 const defaultItem: number = 0;
@@ -38,6 +40,13 @@ export default function Translate() {
   //states---------------------------------------------------->
   const [langs, setLangs] =
     useState<langSelectionStateType>(initialLangSelection);
+  //use Effect for send request to translate main text that i wrote
+  useEffect(() => {
+    const timeOutId = setTimeout(() => {
+      console.info("Its running");
+    }, 3000);
+    return () => clearTimeout(timeOutId);
+  }, [langs.baseText.text]);
 
   const isTranslatedLang = (id: string) => id.includes("translate");
   //handler function------------------------------------------->
@@ -48,6 +57,16 @@ export default function Translate() {
       baseText: {
         ...prevState.baseText,
         text: value,
+      },
+    }));
+  };
+  //clear main text
+  const onClear = () => {
+    setLangs((prevState) => ({
+      ...prevState,
+      baseText: {
+        ...prevState.baseText,
+        text: "",
       },
     }));
   };
@@ -77,16 +96,18 @@ export default function Translate() {
   };
 
   //main ui: translate section--------------------------------->
-  console.log(langs);
+  // console.log(langs);
   return (
     <div className="w-10/12 flex items-center justify-center">
       <div className="h-full w-4/6">
         <div className="h-1/6 pt-16">
+          <SoundIcon />
           <h1 className="text-textMain text-2xl font-bold p-2">Translate</h1>
         </div>
         <div className="h-5/6">
           <div className="w-full h-1/3 p-4">
             {/*======================== mainText section================ */}
+
             <div className="w-fit">
               <ButtonSwitcher
                 items={langList}
@@ -102,6 +123,10 @@ export default function Translate() {
               value={langs.baseText.text}
               resize="resize-none"
               onChange={onChangeHandler}
+              activeCopyClipboard={true}
+              activeSound={true}
+              activeTrash={true}
+              onClear={onClear}
             />
           </div>
           <div className="w-full h-1/3 p-4 mt-9">
@@ -118,8 +143,10 @@ export default function Translate() {
               id="translatedText"
               name="translatedText"
               placeHolder="a sample translated text"
-              value={langs.baseText.text}
+              // value={langs.baseText.text}
               resize="resize-none"
+              activeCopyClipboard={true}
+              activeSound={true}
             />
           </div>
           {/* <div className="w-full h-1/2">translate</div> */}

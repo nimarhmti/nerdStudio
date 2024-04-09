@@ -1,3 +1,7 @@
+import CopyClipBoard from "@/public/icons/copyClipBoard";
+import SoundIcon from "@/public/icons/soundIcon";
+import TrashIcon from "@/public/icons/trashIcon";
+import { copyClipBoard } from "@/utils/copyClipboard";
 import React, { ChangeEvent, RefObject } from "react";
 interface textAreaProps {
   placeHolder: string;
@@ -8,6 +12,10 @@ interface textAreaProps {
   onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
   ref?: RefObject<HTMLTextAreaElement>;
   name: string;
+  activeTrash?: boolean;
+  activeCopyClipboard?: boolean;
+  activeSound?: boolean;
+  onClear?: () => void;
 }
 export default function TextArea({
   id,
@@ -18,9 +26,19 @@ export default function TextArea({
   value,
   ref,
   name,
+  activeSound,
+  activeTrash,
+  activeCopyClipboard,
+  onClear,
 }: textAreaProps) {
+  //conditional rendering
+
+  const showSoundIcon = activeSound && <SoundIcon />;
+  const showCopyIcon = activeCopyClipboard && <CopyClipBoard />;
+  const showTrashIcon = activeTrash && <TrashIcon />;
+
   return (
-    <>
+    <div className="h-full relative">
       <label htmlFor={id} className="font-extrabold">
         {label}
       </label>
@@ -33,6 +51,12 @@ export default function TextArea({
         value={value}
         ref={ref}
       />
-    </>
+
+      <div className="absolute left-3 bottom-1 flex gap-x-2 items-center">
+        <div>{showSoundIcon}</div>
+        <div onClick={() => copyClipBoard(String(value))}>{showCopyIcon}</div>
+        <div onClick={onClear}>{showTrashIcon}</div>
+      </div>
+    </div>
   );
 }
