@@ -16,6 +16,8 @@ import { SelectItem } from "../_Components/selecItem/selectItem";
 import { langList } from "@/language/langList";
 import { ButtonSwitcher } from "../_Components/TabSwitcher/TabSwitcher";
 import { WritePreview } from "./previewSection/WritePreview";
+import usePost from "@/hooks/usePost";
+import { chatBotURL } from "@/api/prompt.api";
 // import AnimatedTabs from "../_Components/TabSwitcher/TabSwitcher";
 
 // const variables
@@ -67,6 +69,8 @@ export default function Write() {
   const [value, setValue] = useState<FormValueType>(initialFormValues);
   const [activeTools, setActiveTools] =
     useState<activeToolsModel>(initialsActiveTools);
+
+  const { error, data, loading, postData } = usePost(chatBotURL);
   //change handler : get input change : main text and language selector
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>
@@ -106,6 +110,12 @@ export default function Write() {
     }));
   };
 
+  const onClickCom = async () => {
+    await postData(value.text);
+  };
+
+  //condition
+  const isDisabled = !value.text;
   return (
     <div className="bg-primary w-10/12 flex  item-center justify-center p-6">
       <div className="w-1/2 h-full flex flex-col gap-y-10 pr-6">
@@ -184,14 +194,17 @@ export default function Write() {
           </div>
         </div>
         <button
-          className="mt-10 w-60 p-1 bg-highlightMain rounded-2xl text-secondary text-lg"
-          onClick={() => console.log(value)}
+          className={`mt-10 w-60 p-1 rounded-2xl text-secondary text-lg ${
+            isDisabled ? "bg-highlight" : "bg-highlightMain"
+          }`}
+          onClick={onClickCom}
+          disabled={!value.text}
         >
           generate
         </button>
       </div>
       <div className="w-1/2  border-l border-secondary text-sm p-2 font-extrabold">
-        <WritePreview />
+        <WritePreview data={data} isError={error} isLoading={loading} />
       </div>
     </div>
   );
