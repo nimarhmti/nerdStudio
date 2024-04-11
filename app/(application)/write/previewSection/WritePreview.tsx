@@ -1,5 +1,7 @@
 import React from "react";
 import TextArea from "../../_Components/textArea/textArea";
+import ReactMarkdown from "react-markdown";
+import MarkdownReader from "../../_Components/markdownReader/MarkdownReader";
 interface Props {
   isError: any;
   data: any;
@@ -14,7 +16,7 @@ export const WritePreview = ({ data, isError, isLoading }: Props) => {
   return (
     <div className="h-4/5">
       <h1 className="font-bold ">Preview</h1>
-      {data ? (
+      {/* {data ? (
         <TextArea
           id="preViewSection"
           name="preView"
@@ -22,7 +24,8 @@ export const WritePreview = ({ data, isError, isLoading }: Props) => {
           value="a sample text generated"
           resize="resize-none"
         />
-      ) : null}
+      ) : null} */}
+      {/* <MarkdownReader text={data} /> */}
     </div>
   );
 };

@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
-
+import ReactMarkdown from "react-markdown";
+import ReactDom from "react-dom";
 import "../style/globals.css";
 import { Roboto } from "next/font/google";
 
