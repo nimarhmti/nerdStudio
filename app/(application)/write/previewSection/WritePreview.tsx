@@ -12,20 +12,10 @@ export const WritePreview = ({ data, isError, isLoading }: Props) => {
     return <div>Loading...</div>;
   }
 
-  console.log(data);
   return (
     <div className="h-4/5">
       <h1 className="font-bold ">Preview</h1>
-      {/* {data ? (
-        <TextArea
-          id="preViewSection"
-          name="preView"
-          placeHolder=""
-          value="a sample text generated"
-          resize="resize-none"
-        />
-      ) : null} */}
-      {/* <MarkdownReader text={data} /> */}
+      <MarkdownReader text={data} />
     </div>
   );
 };

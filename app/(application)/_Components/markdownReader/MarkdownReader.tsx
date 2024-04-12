@@ -10,7 +10,6 @@ export default function MarkdownReader({ text }: Props) {
     <ReactMarkdown
       className="bg-secondary h-full rounded-lg p-2 border border-highlightMain"
       children={children}
-      remarkPlugins={[remarkGfm]}
     />
   );
 }
