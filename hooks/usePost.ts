@@ -1,12 +1,21 @@
+import { chatCondition } from "@/utils/conditionalChat";
 import { useState } from "react";
 
 const ApiKey = process.env.NEXT_PUBLIC_API_KEY;
 const firstItem: number = 0;
 
-const usePost = (url: string) => {
+interface roleModel {
+  name: string;
+  lang?: string;
+}
+
+const usePost = (url: string, role: roleModel) => {
   const [data, setData] = useState<any>("");
   const [error, setError] = useState(null);
   const [loading, setLoading] = useState(false);
+
+  //condition
+
   //reader function
   async function readDataCashed(reader: any): Promise<any> {
     const { value, done } = await reader.read();
@@ -29,7 +38,7 @@ const usePost = (url: string) => {
     }
   }
 
-  const postData = async (message: string) => {
+  const postData = async (message: string | undefined) => {
     setLoading(true);
     try {
       const response = await fetch(url, {
@@ -42,7 +51,7 @@ const usePost = (url: string) => {
         body: JSON.stringify({
           messages: [
             {
-              content: message,
+              content: chatCondition(role, message),
               role: "user",
             },
           ],

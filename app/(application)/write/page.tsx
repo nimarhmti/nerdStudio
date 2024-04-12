@@ -61,7 +61,7 @@ const initialsActiveTools: activeToolsModel = {
   format: formatItems[firstItem].id,
   tone: toneItems[firstItem].id,
 };
-
+const writeRole = { name: "write" };
 //main Section: write
 export default function Write() {
   //states
@@ -70,7 +70,7 @@ export default function Write() {
   const [activeTools, setActiveTools] =
     useState<activeToolsModel>(initialsActiveTools);
 
-  const { error, data, loading, postData } = usePost(chatBotURL);
+  const { error, data, loading, postData } = usePost(chatBotURL, writeRole);
   //change handler : get input change : main text and language selector
   const handleChange = (
     e: ChangeEvent<HTMLTextAreaElement | HTMLSelectElement>

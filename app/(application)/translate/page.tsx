@@ -4,11 +4,15 @@ import TextArea from "../_Components/textArea/textArea";
 import { ButtonSwitcher } from "../_Components/TabSwitcher/TabSwitcher";
 import { langList, translatedList } from "@/language/langList";
 import SoundIcon from "@/public/icons/soundIcon";
+import usePost from "@/hooks/usePost";
+import { chatBotURL } from "@/api/prompt.api";
+import { getSecondPart } from "@/utils/getSecondPart";
 
 //variables
 
 const defaultItem: number = 0;
 const secondaryItem: number = langList.length - 1;
+const writeRole = { name: "write" };
 //interfaces andType
 interface singleLangInfo {
   value: string;
@@ -30,8 +34,8 @@ const initialLangSelection: langSelectionStateType = {
     text: "",
   },
   translatedText: {
-    id: translatedList[secondaryItem].id,
-    value: translatedList[secondaryItem].value,
+    id: translatedList[1].id,
+    value: translatedList[1].value,
     text: "",
   },
 };
@@ -40,10 +44,14 @@ export default function Translate() {
   //states---------------------------------------------------->
   const [langs, setLangs] =
     useState<langSelectionStateType>(initialLangSelection);
+  const translateRole = { name: "translate", lang: langs.translatedText.value };
+  const { data, loading, postData } = usePost(chatBotURL, translateRole);
+
   //use Effect for send request to translate main text that i wrote
+
   useEffect(() => {
     const timeOutId = setTimeout(() => {
-      console.info("Its running");
+      postData(langs.baseText.text);
     }, 3000);
     return () => clearTimeout(timeOutId);
   }, [langs.baseText.text]);
@@ -94,7 +102,11 @@ export default function Translate() {
       }));
     }
   };
-
+  console.log(
+    getSecondPart(
+      "Hello is a valid English word, so sure, here' how it would be translated into Spanish: Hola."
+    )
+  );
   //main ui: translate section--------------------------------->
   // console.log(langs);
   return (
@@ -142,7 +154,7 @@ export default function Translate() {
               id="translatedText"
               name="translatedText"
               placeHolder="a sample translated text"
-              // value={langs.baseText.text}
+              value={getSecondPart(data)}
               resize="resize-none"
               activeCopyClipboard={true}
               activeSound={true}
